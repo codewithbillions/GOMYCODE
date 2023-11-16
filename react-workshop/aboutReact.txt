@@ -1,0 +1,57 @@
+INTRO TO REACT
+
+THE BIRTH OF REACT.
+REACT came out in 2013.
+
+before 2013 what do we have?
+in the early 90's and 2000'swe only have HTML , CSS and JAVASCRIPT.
+
+HTML - displays the TEXT on our pages
+CSS - styles the webpage
+JAVASCRIPT - allows us to have interractivity on our webpage.
+
+Initially it started with simple Forms, where we send from the backend if we go to a URL the HTML, CSS, and JAVASCRIPT files.
+lets sat a user submit a form the user just sends that back to the server to store that information.
+
+lets say a user click a link in the page, once again we simply request the new html file and the new page from the server is sent to the frontend.
+
+But there is a problem here.
+all thses website were run on difeerent browsers and all these browsers were worked on by different group of developers.
+
+As we want to use more and more javascript in our webpages, we have to account for all these brousers that sometimes works differently from each other and we have to accomodate javascript to work with different browsers.
+
+Eventually JQUERY Library came to the rescue which allows developers to build bigger and bugger website.
+note: read about JQUERY.
+
+instead of developers trying to think on how to implement logic on different browser, JQUERY says "dont worry i will take care of that for you".
+JQUERY syntax works accross all browsers.
+facebook as an example. had more funtionality like the login, for multiple users and feeds from multiple users. and request from pages upon pages.
+
+BACKBONE.js came up because the javascript became bigger and bigger.
+this library helps us organise our javascripts code because it became easier to work with the dom we had the birth of SPA(single page application).
+
+in 2010 ANGULARjs was created by google really bacame a standard way of building and application.
+
+Unlike JQUERY angular allowed developer to build large applications forming containers that will wrap your project and because it was created by google it had alot of power. people accepted that as the new way of building things, everything is organised, we have this large javascript files and we can organise them in angular way.
+we have controller, views and models. MVC or MVVM pattern where each part of the application or javascript file was divided to the different things that it did.
+
+the idea of organising our large code so they are easier to work with as things get larger and larger really made ANGULARjs popular.
+
+But There was a problem, thing started getting more and more complex.
+as things get bigger it was getting harder and harder finding bugs in the code. because Data was flowing everywhere and how each part of the app was affecting the other.
+
+meanwhile facebook developer was finding it harder and harder on their end expecially facebook ads app. the facebook ads app got more and more features more and more people were added to the team. the growing numbers of lines of code, the growing numbers of people working on the app the app became really really difficult to handle.
+and each update will cost more and more issues and having all these erros relating to each other pointing to each other. after a while the enginneers of facebook couldnt keep up with the way that they have created this app, they needed to upgrade their code base. this is not just special the the frontend world, this is all over programming. it is why we need good architecture.
+
+we need to think about how we organise our code, how we manipulate data and how that data flows through our program. so facebook came up witha solutiona and that solution really worked for them, that in 2013 they released REACT to the developement community at "JS conf 2013".
+and their solution was really really good and it took off.
+
+REACT developed a whole new way to build front end application.
+
+It also happened that in 2014 ANGULARjs realised that the way they've architected there framework  didnt allow good application to be built anymore they decided in 2014 that they are going to rewrite the entire library and call it angular without the js. because they want to do an entire rewrite alot of people moved to react.
+
+while angular was doing a complete rewrite facebook was backing react. the great principle react introduced made it what it is today! it became the most popular frontend tool
+
+That is, it became the most popular font and tool with the most job demand across the world and being
+used by very large companies like Airbnb, Uber, Netflix, Twitter, Reddit, Pinterest, Wix, PayPal,
+Stripe, Tumblr, Walmart.

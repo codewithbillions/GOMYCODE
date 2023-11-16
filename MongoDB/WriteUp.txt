@@ -1,0 +1,396 @@
+MongoDB is the "M" in the "MERN STACK" represents the database in the stack. the frontend the the stack is handled by REACT along with nodejs and express MongoDB completes the backend rest API.
+
+Tradition sequel(SQL) databases are built in a relational structure. related tables reference each other with joins as data is queried. relational tables also normalise the data. that means data is not duplicated in the tables thats the "D.R.Y" principle which stands for "dont repeat yourself" and that applies to the structure. with noSQL databases like mongoDB you can throw that out. mongoDB store data in collections, individual record are called 'document'. A document has a key: value structure which look alot like json. collection holds all of a the data about a user for example instead of breaking it into related tables.
+likewise duplicating and distributing the data where deemed neccessary in a noSQL structure this is permitted.
+
+ADVANTAGES
+performance : the speed which a collection is queried is very fast.
+flexibilty: it is very easy to make structural changes, like adding a new field without wrecking a havoc in your total structure. it is like adding a new property to an object
+scalabity: support high databases with high request rate at a very low latency.
+usability: we can run mongodb in the cloud very fast.
+
+>>go to mongodb.com and sign in...
+>>click create a new project
+>> give the project a name
+>> click next
+>> set permission and add members
+click create
+
+>> you will see database deployments page
+>> click Build Database
+>> click create FREE
+
+>> then it will say create a shared cluster
+>> keep the defaults
+>> the click create cluster at the buttom
+
+when the cluster has been created click >> browse collections 
+
+Database name => companyDB
+collection name => employees
+
+>>click create
+
+click>> database access
+create a database user button
+
+put in the password
+
+keep all the default
+click add user once we have the user we need to go back to our cluster. by clicking the cluster name.
+
+then click connect
+set up the security and allow access from anywhere
+
+then click choose a connection method. this gives us a connection strings...
+
+https://www.mongodb.com/try/download/shell
+
+https://www.mongodb.com/try/download/community
+
+
+open powershell
+cd program file
+cd mongoDB
+cd to server
+cd to bin
+cd to 4.4
+run ./mongod.exe
+
+install mongoDB and mongoDB-shell and once you are done installing go to your terminal 
+type 'mongosh'.
+
+you will see >> test>> which is the default database you get started with.
+
+in order to view your databases
+
+>> test> show dbs
+
+you will see 
+>>>
+admin  41 kb
+config  73.7 kb
+local   73.7 kb
+test>
+
+Now to create a database 
+>> test> use <the name of your database>
+i.e use chat-app.
+you will get 
+>> 
+chat-app>
+----------------------------
+in mongodb you have some theme the first one is databases and the other one is collections the collection is just like tables in database if you are familiar with SQL it is where you store your data you can call them what you want. like user collection. email collection or any collection in the the database.
+------------------------
+to delete the entire database 
+db.dropDatabase()
+
+alot of coomand in mongoDB are similar to javascript. calling a function and passing a parameter.
+
+the database will be deleted.
+
+you realise you are still in chat-app>
+the database no longer exist when you type>> show dbs
+ 
+ when you type exit you leave the database.
+------------------------
+to start again 
+mongosh
+
+then use chat
+you get
+>>
+mongosh> use chat
+switched to db chat
+chat>
+>>>>>>>>>>>>>>>
+to get the current database you are in type > db
+you get
+chat> db
+chat
+chat>
+>>>>>>>>>>>>>>>>>>>>>>>>>
+to create a collection type db.<collection name>
+in our case users
+that is db.users
+this is where we want to store our user data.
+to insert inside this table you type db.users.insertOne({name : 'john'})
+
+you pass in an object which is just a javascript object. in the case we pass a name of john.
+
+you get this.
+chat> db.users.insertOne({name: "john"})
+{
+  acknowledged: true,
+  insertedId: ObjectId("635cc1750f0ea7119deb3037")
+}
+>>>>>>>>>>>>>>>
+if you run
+db.users.find()
+you get this
+chat> db.users.find()
+[ { _id: ObjectId("635cc1750f0ea7119deb3037"), name: 'john' } ]
+chat>
+mongodb automatically generated to an ID for you. there is no schema there is no column you have to worry about in mongoDB.
+you only worry about <documents> every single object you store the the database in mongodb is called a document.
+document lives in collection and collection lives in databases.
+so we have our chat> which is the database. then users> which is our collection and john document lives in collection.
+
+>>>>>>>>>>>>>
+insert a new user >>
+ db.users.insertOne({name: "james", age: 20, address: { street: "987 North st"}, hobbies:["running"] })
+
+ if we run it we get
+ {
+  acknowledged: true,
+  insertedId: ObjectId("635cc4ce0f0ea7119deb3038")
+}
+then if we run
+ db.users.find()
+  we get
+[
+  { _id: ObjectId("635cc1750f0ea7119deb3037"), name: 'john' },
+  {
+    _id: ObjectId("635cc4ce0f0ea7119deb3038"),
+    name: 'james',
+    age: 20,
+    address: { street: '987 North st' },
+    hobbies: [ 'running' ]
+  }
+]
+
+so in mongoDB it is possible for our object not to have the same filed and also possible to nest thing just the address  and hobbies field which is very hard to do in SQL.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Now lets insert multiple records at once
+run >>db.users.insertMany([{name : "Jill"}, {name: "Juliet"}])
+
+you get
+{
+  acknowledged: true,
+    '0': ObjectId("635cc6de0f0ea7119deb3039"),
+    '1': ObjectId("635cc6de0f0ea7119deb303a")
+  }
+}
+
+run db.users.find()
+you get this with juliet and jill at the bottom
+
+[
+  { _id: ObjectId("635cc1750f0ea7119deb3037"), name: 'john' },
+  {
+    _id: ObjectId("635cc4ce0f0ea7119deb3038"),
+    name: 'james',
+    age: 20,
+    address: { street: '987 North st' },
+    hobbies: [ 'running' ]
+  },
+  { _id: ObjectId("635cc6de0f0ea7119deb3039"), name: 'Jill' },
+  { _id: ObjectId("635cc6de0f0ea7119deb303a"), name: 'Juliet' }
+]
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+QUERYING THE database
+db.users.find().limit(2)
+
+returns the first two users
+[
+  { _id: ObjectId("635cc1750f0ea7119deb3037"), name: 'john' },
+  {
+    _id: ObjectId("635cc4ce0f0ea7119deb3038"),
+    name: 'james',
+    age: 20,
+    address: { street: '987 North st' },
+    hobbies: [ 'running' ]
+  }
+]
+>>>>>>>>>>>>>>
+QUERING BY SORT
+sort take in an object. we can sort by name 
+
+chat> db.users.find().sort({name: 1}).limit(2)
+[
+  { _id: ObjectId("635cc6de0f0ea7119deb3039"), name: 'Jill' },
+  { _id: ObjectId("635cc6de0f0ea7119deb303a"), name: 'Juliet' }
+]
+chat> db.users.find().sort({name: -1}).limit(2)
+[
+  { _id: ObjectId("635cc1750f0ea7119deb3037"), name: 'john' },
+  {
+    _id: ObjectId("635cc4ce0f0ea7119deb3038"),
+    name: 'james',
+    age: 20,
+    address: { street: '987 North st' },
+    hobbies: [ 'running' ]
+  }
+]
+SORTING WITH MULTIPLE FIELDS
+db.users.find().sort({ age: 1, name: 1}).limit(2)
+you get
+[
+  { _id: ObjectId("635cc6de0f0ea7119deb3039"), name: 'Jill' },
+  { _id: ObjectId("635cc6de0f0ea7119deb303a"), name: 'Juliet' }
+]
+
+chat> db.users.find().sort({ age: -1, name: 1}).limit(2)
+[
+  {
+    _id: ObjectId("635cc4ce0f0ea7119deb3038"),
+    name: 'james',
+    age: 20,
+    address: { street: '987 North st' },
+    hobbies: [ 'running' ]
+  },
+  { _id: ObjectId("635cc6de0f0ea7119deb3039"), name: 'Jill' }
+]
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+db.users.find({ name : " james"})
+db.users.find({ age : 20})
+
+age is a number if you query age to be a string you get nothing back
+db.users.find({ age : "20"})
+it only going to match where age is a number.
+
+db.users.find({ name : " james"}, {name: 1, age : 1, _id: 0 })
+_id = 0 you dont want the id to be returned.
+
+you will get the name and age withou the ID.
+_________________________________________
+db.users.find({ name : " james"}, {age : 0 })
+this wont return the age in the query. when you set the age to zero.
+the age field will be left out.
+______________________________________________
+COMPLEX QUERYING
+equality
+db.users.find({name : {$eq: "James"}})
+querying where name is equal to james
+______________________________________
+db.user.find({age: {$gt: 13}})
+querying where age is greater than 13
+
+db.user.find({age: {$gte: 19}})
+gte greater than or equal to 19
+
+db.user.find({age: {$lt: 13}})
+less than
+
+db.user.find({age: {$lte: 13}})
+less than or equal to 13
+______________________________________________
+db.users.find({ name: {$in: ["james", "Jill"]}})
+this will return if both name are in the document object
+
+db.users.find({ name: {$nin: ["james", "john"]}})
+not in return all the users that are not james and jill
+_______________________________-______________
+db.users.find({ age: {$exists: true}})
+will return every object with an age property and value.
+
+db.users.find({ age: {$exists: false}})
+if you pass false to exist the it returns 
+checking if the key exists
+
+db.users.insertOne({ age: null, name: "Bill"})
+
+now check if exist is true even though the age is null you see it is showing when you check for exist true.
+_______________________________
+
+db.users.find({ age: { $gte: 20, $lte: 40}})
+we get the object with properties greater than 20 and less than equal to 40.
+db.users.find({ age: { $gte: 20, $lte: 40}, name: "james"})
+it will print the object with properties greater than 20 and less and name equals to james.
+
+------------------------------------
+QUERING $and
+db.users.find({$and: [{age: 20}, {name:"james"}]})
+you get this
+[
+  {
+    _id: ObjectId("635cc4ce0f0ea7119deb3038"),
+    name: 'james',
+    age: 20,
+    address: { street: '987 North st' },
+    hobbies: [ 'running' ]
+  }
+]
+
+QUERYING or
+db.users.find({ $or: [{ age: { $lte:20}}, {name: " james"}] })
+______________________________________
+QUERYING not
+db.users.find({ age: { $not: {$lte:20}}})
+
+get all ages not equal to 20
+_________________________________________
+db.users.find(age: { age:  {$gt:20}})
+
+returns all age greater than 20.
+__________________________________
+db.users.insertMany([{ name: "Tom", balance: 100, debt: 200}, { name: "Kristin", balace: 20, debt: 0}])
+_________________________________
+to find user that debt is greater than balance.. users that are in debt
+db.users.find({$expr: {$gt: ["$debt", "$balance"]} })
+__________________________________
+db.users.find({ "address.street": "123 Main St" })
+
+to get the user with this address.
+___________________________________
+db.users.findOne({ age: {$lte: 40 }})
+
+find one will find the first user that age is less than or equal to 40
+___________________________________
+db.users.countDocuments({ age: {$lte: 40 }})
+
+we get how many user satisfy the query.
+
+UPDATE
+db.users.updateOne({age: 26}, {$set: { age: 27}} )
+
+$set set the age to 27
+
+so if we do
+db.users.findOne({ age:27 })
+
+we get the data that match the new age
+
+but most time we update based on the _id
+db.users.updateOne({ _id: Object("62776388636gdhhdg7373hggvve33") }, {$set: {name: "new name"} })
+
+db.users.findOne({ _id: Object("62776388636gdhhdg7373hggvve33")})
+
+db.users.updateOne({ _id: Object("62776388636gdhhdg7373hggvve33") }, { $inc : (age: 3)})
+
+here we increment the age of the id by 3
+_______________________________
+db.users.updateOne({ _id: Object("62776388636gdhhdg7373hggvve33") }, { $rename : (name: "firstName")})
+
+to rename the user 
+_______________________________
+db.users.updateOne({ _id: Object("62776388636gdhhdg7373hggvve33") }, { $unset : {age: ""}})
+
+this will totally remove the age property.
+_______________________________
+db.users.updateOne({ _id: Object("62776388636gdhhdg7373hggvve33") }, { $push : {hobbies: "swimming")})
+
+push will be pushed to the array
+_______________________________
+
+db.users.updateOne({ _id: Object("62776388636gdhhdg7373hggvve33") }, { $pull : {hobbies: "Bowling")})
+
+with this Bowling will be removed from the list.
+_______________________________
+db.users.updateMany({ address: { $exists: true} }, {$unset: {address: ""}})
+
+click enter you will notice non of our user has an address.
+_______________________________
+db.users.replaceOne({ age: 30}, {name: "John"})
+
+here we replace a user with age 30 and replace the enter name with age.
+
+_______________________________
+DELETE
+db.users.deleteOne({name: "John"})
+to the user John
+_______________________________
+db.users.deleteMany({ age: {$exists: false }})
+
+every user without a name will be deleted.

@@ -1,0 +1,284 @@
+WHAT IS JAVASCRIPT?
+
+// stove trade forest good moment energy orbit million cause winner there pluck
+
+where does javascript code run?
+it was originally designed to run in browsers
+every browser has something called Javascript engine that can execute JavaScript code.
+mozilla is SpiderMonkey
+opera mini is chakra 
+
+the Engine in firefox and chrome are SpiderMonkey and v8.
+
+in 2009 an engineer called Ryan Dahl took the open-source javascript engine in chrome and embedded it inside a c++ program that he called NODE. NOde is a C++ program that include google's V8 JavaScript engine now we can run javascriptcode outside a browser.
+
+with this JavaScript runs inside a browser and in NODE
+NODE provide a run time environment for javascript code.
+
+What is the difference between JAVASCRIPT AND ECMASCRIPT??
+
+ECMASCRIPT is just a specification, 
+JAVASCRIPT is a programming language that confirms this specification.
+
+there is an organisation called ECMA which is responsible for defining the standard. they take care of ECMASCRIPT specification.
+the first version of ECMASCRIPT was released in 1997. since 2015 theyve been working on annual specification.
+ECMASCRIPT 2015  
+was released in 2015/ ES6 for short. this specification defines many new feature for javascript.
+
+>>>>>>>>>>>>>>>
+
+now lets practice
+open up chrome 
+right click and empty area.
+go to inspect.(this opens up chrome developer tools)
+go to console(this is our javascript console you can write any valid javaScript Code here).
+
+type console.log('hello world');
+now press enter key.
+you will see hello world printed at console.
+you can also write mathemetical expression 2+2
+or alert('yo');
+
+>>>>>>>>>>>>>>>>
+
+VSCODE, NODE.
+SETUP. index.html >> live server.
+<body>
+<h1> HEllo World <h1>
+</body>
+adding the script element 
+in the head section or in the body section.
+best practice is at the end of the body.
+
+<body>
+<h1> Hello World <h1>
+<script> </script>
+</body>
+browser loads the page from top to bottom.
+if you put it in the head section. when you have a large javaScript code it wont be able to render the content of your page.
+they will create a bad user experience. userlooks at a white web page while loading (running and executing your javascript code)your javascript.
+the only exception is when adding third-party.
+
+<body>
+<h1> HEllo World <h1>
+<script> console.log('hello world')</script>
+</body>
+
+what we have here is a statement. a statement is a piece of code that expresses an action to be carried out. in this case we want to log a message in the console.
+
+what we have inbetween is a string. a string is a sequence pof characters.
+
+// is used for a comment. 
+
+inspect alt + ctrl i.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+SEPERATION OF CONCERNS
+seperating our javaScriptcode from html
+
+add a new file called index.js 
+write console.log('hello world');
+
+reference the file from the html
+
+<script src="index.js"></script>
+
+check your browser
+>>>>>>>
+EXECUTING IN NODE
+
+node script.js
+
+>>>>>>>>
+
+VARIABLES
+in programming language we use variable to store data temporarily in a computer memory.
+
+a variable is like a box what we put in the box is the value we assign to a variable thats the data and the label that we put on the box is that name of our variable.
+
+declaring a variable
+
+var was used before ES6
+
+now let is being used to declare a variable.
+
+let name;
+console.log(name);
+
+we get undefined in the console.
+
+let name = 'Kehinde';
+console.log(name);
+
+instead of undefined you will see kehinde.
+we have declared a variable called name and have set it to kehinde.
+
+//RULES FOR NAMING A VARIABLES
+1) cannot be a reserved keyword.
+    in js we have reserved keyword like if, else etc
+
+    // debugger	default	delete	do
+// double	else	enum*	eval
+// export*	extends*	false	final
+// finally	float	for	function
+// goto	if	implements	import*
+// in	instanceof	int	interface
+// let*	long	native	new
+// null	package	private	protected
+// public	return	short	static
+// super*	switch	synchronized	this
+// throw	throws	transient	true
+// try	typeof	var	void
+// volatile	while with yield
+
+2) should be meaningful
+    not let a = 'Kehinde';
+    let x = 'Kehinde'
+    this kind does not give us a clue of the kind of data stored in that memory location.
+    always use meaningful and descriptive names.
+3)   Cannot start with a number
+    let 1name = 'Kehinde'
+4) Cannot contain a space or hyphen(-)
+    let firstName (camel notation)
+5) Case sensitive
+    let firstName; is different from let FirstName;
+>>>>>>
+you can declare a variable on the same line
+let firstName = 'Kehinde', lastName = 'billions';
+
+modern ways IS
+let firstName = 'Kehinde';
+let lastName = 'billions';
+
+CONSTANT
+
+let amount = 200;
+amount = 500;
+console.log(amount);
+
+in real world application there are situation we dont want the value of a variable to change, otherwise it will create a bug.
+the we use a CONST implies the value of a constant cannot change.
+
+const amount = 200;
+amount = 500;
+console.log(amount);
+
+we get an error in the console
+there if you dont want to reassign const should be used but if you want to reassign let should be used.
+
+>>>>>>>>>>>>>>>.
+PRIMITIVE TYPE/ VALUE TYPES
+strings
+numbers 
+boolean 
+undefined 
+null
+
+let name = 'kehinde'; string literal
+let age = 40; // Number literals
+let isApproved = true; // boolean literals
+let firstName;    // undefined
+let selectedColor = null; 
+    used in situation   where we want to clear the value of a variable
+>>>>>>>>>>>>>>>>>>>>>>>>>> 
+in the console
+
+typeof name
+typeof age
+typeof isApproved
+typeof firstName
+typeof selectedColor
+
+>>>>>>>>>>
+REFERENCE TYPE
+
+OBJECT LITERALS
+multiple related variable make an object 
+
+let person = {
+    name: 'kehinde',
+    age: 40
+}
+
+
+// Dot notation
+person.name = 'billions';
+
+//Bracket notation
+person['name'] = 'Gee';
+
+console.log(person);
+console.log(person.name);
+
+
+ARRAYs
+A data structure we use to represent a list of items
+
+let selectedColors = ['red', 'blue'];
+console.log(selectedColors);
+
+check it
+index of the first element is 0, second element is 1.
+
+displaying by index
+let selectedColors = ['red', 'blue];
+console.log(selectedColors[0]);
+
+adding to the ARRAY
+let selectedColors = ['red', 'blue];
+selectedColor[2] = 'green';
+
+console.log(selectedColors);
+
+let selectedColors = ['red', 'blue];
+selectedColor[2] = 1;
+
+console.log(selectedColors);
+
+let selectedColors = ['red', 'blue];
+selectedColor[2] = 'green';
+
+console.log(selectedColors.length);
+
+FUNCTIONS 
+are one of the fundamental building blocks of javaScript. it performs a task and execute a value.
+
+function greet() {
+    //body of the FUNCTIONS
+    console.log('hello world)
+}
+
+greet();
+
+>>>>>>>
+
+function greet(name) {
+
+    console.log('hello' + name)
+}
+
+greet('kehinde);
+greet('billions');
+
+name is a parameter
+kehinde is an arguement
+>>>>
+Multiple Parameter
+
+function greet(name, lastName) {
+
+    console.log('hello' + name + ' ' + lastName)
+}
+
+greet('kehinde', 'billions');
+
+>>>> 
+calculating a value 
+
+function square(number) {
+    return number * number;
+}
+
+console.log(square(2));
+
+a function is a set of statement that either performs a task or calculate and returns a value. a real world application is essentially a collection of hundreds or thousands of FUNCTIONS working together to provide the functionality of that application.

@@ -1,0 +1,81 @@
+check if you have node installed
+node -v
+if you see a version the you have node installed
+
+npx create-react-app .
+period means use the folder you are in.
+you can also use any name for your folder.
+
+once we click enter it going to create and start up our enter react application
+
+if you drag your console up you will see some basic command 
+the most important command is npm start.
+npm start for development and npm run build for production.
+
+the we take a look at the files. 
+node_modules is for the libraries
+the public folder we have essentially our html files
+ what is special about the html file is that it only has one div. no stylesheet, no script tag nothing is inside of here just a single div 
+ which root
+ <div id="root"></div>
+
+all of our application is going to be put in this root div.
+react is going to generate our html and it is going to put it inside this div.
+out html is very basic for the application.
+
+the main meeting potato of this application is in the source folder
+here we have all of our stylesheet javascript, test files, logos.
+the main one we want to look at in the source folder is index.js 
+
+ReactDom.render(<App />, document.getElementById('root')):
+which says render the content we pass in the < App/> at id="root"
+
+if we go into our App component App.js
+check out the basic code 
+and run >> npm start
+to see what our app looks like.
+
+if we change something in the App.js it will automatically refresh and that is one of the interesting thing about react.
+
+in our use case 
+clear the code do just
+
+function App() {
+    return null
+}
+
+export default App
+
+also remove the extra css and logo import 
+remove everything except App.js and index.js.
+
+JSX react version of HTML
+embedding component inside a component
+function App() {
+    return (
+        <TodoList />
+    )
+}
+
+export default App;
+
+in the src 
+create a TodoList.js component
+
+ES7+REACT/REDUX/REACT_NATIVE SNIPPETs extention 
+
+to create the snippet
+by typing rfc it will create a function component for us. and give it the name TodoList.js
+
+in the App.js import the TodoList
+import TodoList from './TodoList';
+
+function App() {
+    return (
+        <TodoList />
+    )
+}
+
+export default App;
+
+

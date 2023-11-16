@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>css-grid</title>
+        <style>
+            .container {
+                display: grid;
+                grid-template-columns: 70% 30%;
+                /* grid-column-gap:1em;
+                grid-row-gap:1em; */
+
+                grid-gap:1em;
+            }
+            .container > div {
+                background: #eee;
+                padding:1em;
+            }
+            .container > div:nthh-child(odd){
+                background:#ddd;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- the difference between flexbox and Grids
+        flexbox is for one dimensional layout in column or rows
+        while grid is a two dimentional layout for columns and rows-->
+
+        <div class="container">
+            <div>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laborum nostrum aut aliquam a enim quia incidunt quo fugit praesentium, vitae nihil eius, unde amet aliquid esse! Commodi, molestias! Natus consectetur nam nesciunt nulla illum totam veniam perspiciatis aliquid magnam vel libero velit provident eos, autem iste expedita officiis saepe quisquam! Cupiditate possimus obcaecati tempore dolore sed qui neque, suscipit earum nisi labore quaerat sapiente. Nisi nihil ad aperiam iure illum recusandae, officiis sit eaque sapiente vel, nobis sint quis incidunt.
+            </div>
+            <div>   Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quos aut nisi repellat molestias unde magni ipsam voluptatibus, accusamus, inventore fugiat maiores quaerat a veniam quibusdam sapiente quisquam dolor eligendi beatae.
+            </div>
+            <div>
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laborum nostrum aut aliquam a enim quia incidunt quo fugit praesentium, vitae nihil eius, unde amet aliquid esse! Commodi, molestias! Natus consectetur nam nesciunt nulla illum totam veniam perspiciatis aliquid magnam vel libero velit provident eos, autem iste expedita officiis saepe quisquam! Cupiditate possimus obcaecati tempore dolore sed qui neque, suscipit earum nisi labore quaerat sapiente. Nisi nihil ad aperiam iure illum recusandae, officiis sit eaque sapiente vel, nobis sint quis incidunt.
+            </div>
+            <div>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quos aut nisi repellat molestias unde magni ipsam voluptatibus, accusamus, inventore fugiat maiores quaerat a veniam quibusdam sapiente quisquam dolor eligendi beatae.</div>
+        </div>
+    </body>
+</html>

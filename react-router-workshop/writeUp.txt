@@ -1,0 +1,433 @@
+//npx create-react-app <name of file>
+//cd rr-6
+//npm install react-router-dom
+
+react-router-native is for mobile while react-router-dom is for web
+npm install react-router-dom
+check package.json to check the version
+
+
+npm start : start react app
+
+in react app you need have some sort of context provider at the top level.
+we can do that in the index.js or app.js
+wherever you put it just make sure that provider that you choose is going to be wrapping everything and anything it the app that needs to use features like creating Links that needs to have thier navigation control react-router
+
+in the index.js 
+import { BrowserRouter } from "react-router-dom";
+
+  <BrowserRouter>
+      <App />
+  </BrowserRouter>
+
+  wrap anything that will be using Links,NavLink
+
+  also import it from react router dom in the index.js
+  import { BrowserRouter } from "react-router-dom";
+
+  two types of router you probably going to use you 
+  browser router and hash router. there is also something called create browser router which we are not getting into now for APIs
+  but browser router for most instances
+
+  we are done with index.js now.
+
+  moving to App.js
+        <Nav />
+
+  create a NAV component. Nav.js file
+  export default function Nav() {
+    return (
+        <nav>
+            <Link to="/"> [Home] </Link>
+        </nav>
+        
+    )
+  }
+
+  this Link component fro react router dom is what will allow us to have react router control the Navigation. 
+  this works like an anchor tag. instead of href="" this one is to=""
+
+  in the App.js file
+  import Nav from './Nav.js';
+     run it and click the home link whick will take you to the root of the app. 
+       <Nav />
+
+    in Nav.js
+     now lets build a few more links
+         return (
+        <nav>
+            <Link to="/> [Home] </Link>
+            <Link to="/users> [All Users] </Link>
+            <Link to="/users/123> [User 123] </Link>
+            <Link to="/users/me> [User Me] </Link>
+        </nav>
+
+      go to browser and check and see the url changing. but one on the special thing about react-router is its displaying on the url and still routing to the home page because we have not built a route for it yet.
+        now lets build some routes for the links to handle changes in the routes. lets build some routes for them
+        
+    )
+  }
+
+  in the App.js
+import Routes in v6 routes is replace by v5 Switch
+using switch you think about how the app is built and write them in the correct order. in right sequence. switch will find the first route that match but the route will return the routes that has the best match. specify the path="" the we specify the element in thepath which could be null or the name of the element element={null}
+
+import {Routes, Route} from react-router-dom
+  function App() {
+  return (
+    <div>
+      <header>
+        <h1>React Router v6 Workshop</h1>
+      </header>
+      <Nav />
+      <Routes>
+        <Route path="/" element={null} />
+        <Route path="/users" element={null} />
+        <Route path="/users/:id" element={null} />
+        <Route  path="/users/me" element={null} />}>
+      </Routes>
+    </div>
+  );
+}
+
+function Home() {
+  return (
+    <main>
+      <h2>This is Home</h2>
+    </main>
+  );
+}
+
+function Users() {
+  return (
+    <main>
+      <h2>This is Users</h2>
+    </main>
+  );
+}
+
+function User() {
+  return (
+    <main>
+      <h2>This is User X</h2>
+    </main>
+  );
+}
+
+function UserMe() {
+  return (
+    <main>
+      <h2>This is User Me</h2>
+    </main>
+  );
+}
+
+
+in react router 5. you write it as component={Home} 0r whatever but in RR6 it is element={<Home/>} returning the element as jsx
+
+      <Routes>
+        <Route path="/" element={<Home/>} />
+        <Route path="/users" element={<Users/>} />
+        <Route path="/users/:id" element={<User/>} />
+        <Route  path="/users/me" element={<UserMe/>} />}>
+      </Routes>
+
+go to the app and navigate the routes 
+
+handling unknown paths 
+<Routes path="*" element={<Dunno/>} />
+
+function Dunno() {
+  return (
+    <main>
+      <h2>This page fucking dont Exist</h2>
+    </main>
+  );
+}
+
+now try a non existing route in the url.
+
+all this we have done so far are the basic implementation of routes. one page or component at a time routing.
+there is also nested routing. it means i may have a component that is showing in that component i can have another layer of routing
+
+//NESTING Routes
+ we can nest /user/:id and /users/me in /users
+
+ 
+      <Routes>
+        <Route path="/" element={<Home/>} />
+        <Route path="/users" element={<Users/>}>
+            <Route path="/users/:id" element={<User/>} />
+            <Route  path="/users/me" element={<UserMe/>} />
+        </Route>
+      </Routes>
+      this two are now nested in USERS
+if you leave it like this there will be a problem because all nested routes are relative in react v6.
+
+<Routes>
+    <Route path="/" element={<Home/>} />
+    <Route path="/users" element={<Users/>} />
+        <Route path=":id" element={<User/>} />
+        <Route  path="me" element={<UserMe/>} />}>
+    <Route/>
+</Routes>
+
+it means if you are at the root fine, if you are at the root :id fine, if 
+you are at the root/me also fine.
+
+<Routes>
+    <Route path="/" element={<Home/>} />
+    <Route path="/users/*" element={<Users/>} >
+        <Route path=":id" element={<User/>} />
+        <Route  path="me" element={<UserMe/>} />}>
+    <Route/>
+</Routes>
+
+try it and you will realise its all showing only users route for it to work for nested you have to create an <Outlet /> component in the Users function. then we will get the users and the nested route
+
+function Users() {
+  return (
+    <main>
+      <h2>This is Users</h2>
+      <Outlet />
+    </main>
+  );
+}
+
+Another way of nesting a route is to create a route in the component
+
+function Users() {
+  return (
+    <main>
+      <h2>This is Users</h2>
+
+      <Outlet />
+
+      <Routes> 
+        <Route path=":id" element={<User/>} />
+        <Route  path="me" element={<UserMe/>} />}>
+      <Routes/>
+
+    </main>
+  );
+}
+
+this will let is display double routes the one at the <Outlet /> at the top and the routes inside.
+>>>>>
+
+
+to Extract the id property from the url. there is a hook called use params in the User Component
+in the USer Component
+
+function User() {
+    const params = useParams() // this will grab the id of the url.
+
+    change to below
+
+    const {id} = params()  //using destructing will be alot better
+
+  return (                   
+    <main>
+      <h2>This is User {id}</h2> // replace X with {id}
+    </main>
+  );
+}
+
+>>>>>>>>.
+
+passing data using context={}
+it works like props. it help pass data to the component
+
+function Users() {
+  return (
+    <main>
+      <h2>This is Users</h2>
+
+      <Outlet context={{kehinde: Date.now()}} />
+    // everytime users loads we calculate the time stamp
+      <Routes> 
+        <Route path=":id" element={<User/>} />
+        <Route  path="me" element={<UserMe/>} />}>
+      <Routes/>
+    </main>
+  );
+}
+
+now to use the context you can pass it down as a hook in the User component
+in the User and UserMe data will be passed down using outletContext
+
+function User() {
+    const {id} = params() 
+    const context = useOutletContext() //this will grab whatever object is passed 
+                                        // in here
+  return (                   
+    <main>
+      <h2>This is User {id}</h2> 
+    </main>
+  );
+}
+
+
+function UserMe() {
+const context = useOutletContext()
+  return (
+    <main>
+      <h2>This is User Me</h2>
+    </main>
+  );
+}
+
+both of these will have data passed down into them they can be sharing like a state data coming from Users. being passed down from parent to child. Users = parent || user and useMe = child.
+
+
+function User() {
+    const {id} = params() 
+    const context = useOutletContext()
+    const kehinde = context ? context.kehinde : '';
+
+  return (                   
+    <main>
+      <h2>This is User {id}</h2> 
+      <p> The kehinde data is {kehinde}. </p>
+    </main>
+  );
+}
+
+
+function UserMe() {
+const context = useOutletContext()
+ const kehinde = context? context.kehinde : '';
+  return (
+    <main>
+      <h2>This is User Me</h2>
+         <main>
+      <h2>This is User {id}</h2> 
+      <p> The kehinde data is {kehinde}. </p>
+    </main>
+  );
+}
+only the first one get the context.
+
+LAstly
+
+in the Nav.js Component create a Navlink
+import { Link, NavLink } from 'react-router-dom';
+
+
+ return (
+        <nav>
+            <Link to="/> [Home] </Link>
+            <Link to="/users> [All Users] </Link>
+            <Link to="/users/123> [User 123] </Link>
+            <Link to="/users/me> [User Me] </Link>
+            <Navlink to="/loc" style={({ isActive }) => ({color: isActive? 'red' : 'gold'; })} className={({ isActive }) => {use the css class name you want to apply here}}>Location</Navlink>
+        </nav>
+        the difference between navlivk and link is that navlink has a special isActive property you can use. to indicate the current link.
+        if it matches whats in the location bar isActive is set to true
+
+in the App.js
+
+import {
+  Routes,
+  Route,
+  Outlet,
+  useParams,
+  useOutletContext,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
+
+add <Route path="/loc" element={<Loc />} /> to routes
+
+
+function Loc() {
+  const { pathname, search, hash } = useLocation(); // anything you want to get from the current url.
+
+  return (
+    <main>
+        <h2>{pathname}</h2>
+        <h2>{search}</h2>
+        <h2>{hash}</h2>
+    </main>
+  )
+}
+
+
+loc can also recieve state frm Nav.js
+
+in the Nav js
+export default function Nav() {
+  return (
+    <nav>
+      <Link to="/" state={{ val: 123 }}>   // state here: to represent that we can pass data down through this
+        {' '}                               // links
+        [ Home ]{' '}
+      </Link>
+      <Link to="/users"> [ All Users ] </Link>
+      <Link to="/users/123"> [ User 123 ] </Link>
+      <Link to="/users/me"> [ User Me ] </Link>
+      <NavLink
+        state={{ val: 456 }}          // state here
+        to="/loc?id=234&name=bob#someHashValue"
+        style={({ isActive }) => ({ color: isActive ? 'red' : 'gold' })}
+        className={({ isActive }) => {}}
+      >
+        useLocation
+      </NavLink>
+    </nav>
+  );
+}
+>> here in loc pass in state as a parameter
+
+function Loc() {
+  const { pathname, search, hash, state } = useLocation();
+
+  return (
+    <main>
+      <h2>{pathname}</h2>
+      <h2>{search}</h2>
+      <h3>{hash}</h3>
+      <h3>{JSON.stringify(state)}</h3>
+    </main>
+  );
+
+3eb50b4
+
+go to browser launch click useLocation
+ in the url add this
+?id=234$name=fanta#someHashValue
+
+ pass this in the navlink
+
+<NavLink
+        state={{ val: 456 }}
+        to="/loc?id=234&name=bob#someHashValue"
+        style={({ isActive }) => ({ color: isActive ? 'red' : 'gold' })}
+        className={({ isActive }) => {}}
+      >
+        useLocation
+      </NavLink>
+
+    finally there is a hook called useNavigate()
+    go to app.js 
+    in the Home component
+
+
+    function Home() {
+  const navigate = useNavigate();
+
+  return (
+    <main>
+      <h2>This is Home</h2>
+      <p>
+        <a
+          onClick={() => {
+            navigate('/users');
+          }}
+        >
+          Go to Users
+        </a>
+      </p>
+    </main>
+  );
+}

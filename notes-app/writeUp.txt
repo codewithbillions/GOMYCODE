@@ -1,0 +1,824 @@
+STEP 1.
+
+first download node js
+
+text editor
+
+create a folder called notes-app
+
+open it in your text editor
+
+>> cd desktop >> go to desktop
+>>create a folder
+>>mkdir notes-app
+>>create a file
+>>touch app.js
+>>cd into the notes-app(folder)
+
+>>open your text editor, or use "code ."
+
+in app.json
+
+ create a console.log('starting app...)
+
+>>>>>>>>>>>run it on you command node app.js
+
+
+then open your terminal(git bash)
+
+>>>> to check the version of NODE
+how to know you have node installed
+node -v or node --version
+it will do the same thing.
+
+>>>>>>>>>>>>>>
+STEP 2.
+
+What is Node?
+Node is a javascript run time environment for javascript.
+node is javascript outside the browser
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+REQUIRE IN NODE
+require('the module')
+require help us grab external or internal or third-party node modules and let us use those modules in our app
+
+in the link below you can find all node internal module
+https://nodejs.org/api/n-api.html
+
+search node api on google click the first link
+you will get a list of node internal module
+
+click FILE SYSTEM. (fs)
+
+const fs = require("fs")
+It has a very good documentation for all it modules.
+also tells you how to use it.
+
+fs.appendFile(path, data[, options], callback)
+
+>>>in your app.js
+const fs = require("fs");
+
+const fs(module) = require (a string parameter called "fs");
+
+fs.appendFileSync("greetings.txt", "hello world");
+
+run node app.js
+
+it will create a greeting.txt file
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+STEP 3.
+require("") also help us use other files module.
+>> create a  notes.js file
+
+in the file create
+console.log('starting notes.js...');
+
+next  >>add 
+const notes = require("./notes");
+to your app.js
+
+>>run node notes.js 
+you get >> starting notes....
+
+Now run>> node app.js
+
+you get >> starting app.js...
+          starting notes....
+which means youve succesfully added notes app into app.js.
+
+you can also re-use functions in another file
+
+
+using ES6 funtions
+function add(x, y) {
+  return x + y;
+}
+
+var add = (x, y) => {
+    return x + y
+}
+
+even better 
+var add = (x, y) => x + y;
+
+console.log(notes.add(2,2));
+
+now run >> node notes.js
+you get 4
+
+in notes.js
+
+MODULE.EXPORTS
+this is to tell node we want to export the module so anyone could use it.
+
+module.exports.add = function(x,y){
+  return x + y;
+}
+
+>>.in notes.js file
+console.log("starting notes.js....");
+
+var add = (x, y) => x + y;
+var sub = (x, y) => x - y;
+
+
+module.exports = {
+  add,
+  sub,
+};
+
+without exporting the function it wont work
+
+ module.exports.add = function add(x, y) {
+     return x + y;
+   }
+
+//OR
+// function add(x, y) {
+//     return x + y;
+//   }
+
+//   module.exports= {
+//     add
+//   }
+
+>>. in app.js console.log("starting app.js.....");
+
+const fs = require("fs");
+const notes = require("./notes");
+
+// fs.appendFileSync("greetings.txt", "hello world");
+
+console.log(notes.add(2, 5));
+console.log(notes.sub(2, 5));
+
+>> then run node app.js
+
+Now you know how to use internal modules and external modules. 
+in the next step you will learn how to use third-party module. those are module that people created.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+STEP 4.
+now lets use third party modules-- 
+by third-party modules we mean module that other people has created.
+
+modules other people has created
+>> Open
+https://npmjs.com
+search for yargs 
+yargs helps you build command line tools
+
+to start using third_party module first we do 
+>> npm init
+
+npm install yargs --save (the third party module)
+
+>> check your package.json
+"dependency" : "yargs"
+
+>>>>> node_modules file
+this is where we have our dependency installed.
+all the dependency needed by your app is stored there.
+for example all the dependency needed by yargs
+
+
+how we use the third party module we installed??
+
+>> in your app.js
+const fs = require('fs');
+const yargs = require('yargs');
+const notes = require('notes');
+
+console.log(notes.add(2, 5))
+console.log(notes.sub(2, 5))
+
+>>>>remove the mathematical console.log
+>>then
+
+const fs = require('fs');
+const yargs = require('yargs');
+const notes = require('notes');
+
+
+console.log(process.argv);
+
+>>run node app.js list
+
+>> you get this
+starting app.js .......
+starting notes.js....
+[
+  'C:\\Program Files\\nodejs\\node.exe',
+  'C:\\Users\\oguny\\Desktop\\notes-app\\app.js',
+  'list'
+]
+var title = process.argv[4]
+console.log(title)
+
+>>in your app.js
+console.log('Process', process.argv);
+console.log('Yargs', yargs.argv);
+
+>>run 
+for process.argv first then add yargs to it.
+
+node app.js read --title "notes-app" 
+--body "get me the body"
+>> you get this
+
+starting app.js....
+starting notes.js....
+Process [
+  'C:\\Program Files\\nodejs\\node.exe',
+  'C:\\Users\\oguny\\Desktop\\notes-app\\app.js',
+  'read',
+  '--title',
+  'notes-app',
+  '--body',
+  'get me the body'
+]
+Yargs {
+  _: [ 'read' ],
+  title: 'notes-app',
+  body: 'get me the body',
+  '$0': 'app.js'
+}
+notes-app
+
+yargs simplifies the information parsed.
+
+argv stands for argument vector
+
+>>>>>>>>>>>>>>>>>>>>>
+to simplify the process like yargs
+
+var title = process.argv[4];
+console.log(title);
+>>>>>>>>>>>>>>>>>>>>>>>>> remove process replace by the code below!!
+
+
+var title = yargs.argv.title;
+console.log(title);
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+the section i thought you require 
+to use internal external and third party modules.
+
+
+--------------------------------------------------
+PART #2
+--------------------------------------------------
+
+in this section we talk about saving a note to a test file
+
+in your app.js
+console.log('Starting app.js..);
+const yargs = require('yargs');
+const notes = require('./notes.js');
+const args = yargs.argv;
+
+console.log(yargs.argv);
+
+var title = yargs.argv.title;
+var body = yargs.argv.body;
+var command = yargs.argv._[0];
+
+console.log(title, body, command);
+
+in your terminal run
+node app.js list
+
+you get this
+
+Starting app.js..
+starting notes.js....
+undefined undefined list
+
+the reason we get undefined is because we didnt give the body argument
+
+in your terminal
+node app.js add --title "note" --body "new note"
+
+you get
+Starting app.js..
+starting notes.js....
+note new note add
+------------------
+how do we get this 
+console.log(yargs.argv);// in app.js
+then in your terminal
+$ node app.js add --title "note" --body "new note"
+
+you get
+Starting app.js..
+starting notes.js....
+{ _: [ 'add' ], title: 'note', body: 'new note', '$0': 'app.js' }
+note new note add
+
+in your app.js
+console.log('Starting app.js..);
+const yargs = require('yargs');
+const notes = require('./notes.js');
+const args = yargs.argv;
+
+var title = yargs.argv.title;
+var body = yargs.argv.body;
+var command = yargs.argv._[0];
+
+if (command === 'add') {
+  console.log('adding note')
+} else if (command === 'remove') {
+  console.log('removing note')
+} else if (command === 'read') {
+  console.log('reading note')
+} else if (command === 'list') {
+  console.log('listing all notes')
+} else {
+  console.log('unknown command was used!')
+}
+
+try this in your terminal
+node app.js add
+node app.js remove
+node app.js read
+node app.js list
+node app.js jfdlsjdfhlshgl you get unknown command was used
+
+to use this in your notes.js 
+create your fs require file
+because thats where you want to do all the reading not in app.js
+
+const fs = require('fs');
+
+function addingNote(title, body) {
+  var note = {
+    title,
+    body,
+  };                //("notes.txt", note) you get object object
+  fs.writeFileSync("notes.txt", JSON.stringify(note));
+
+module.exports = {
+  addingNote,
+};
+
+in the app.js command for add
+if (command === 'add') {
+  console.log('adding note')
+notes.addingNote(title, body)
+
+run this in your terminal
+node app.js add --title "notes-app" --body "get me the body"
+
+a notes.txt is create and inside the file you get 
+{"title":"notes-app","body":"get me the body"}
+
+run this in your terminal adding 2 to the title you realise it replaces the first one
+
+node app.js add --title "notes-app2" --body "get me the body"
+
+a notes.txt is create and inside the file you get 
+{"title":"notes-app","body":"get me the body"}
+
+const fs = require('fs');
+
+function addingNote(title, body) {
+var notes = fs.readFileSync('notes.txt');
+console.log(notes)
+
+//comment this then run it in the terminal you get a buffer
+
+ // var note = {
+   // title,
+ //   body,
+ // };
+ // fs.writeFileSync("notes.txt", JSON.stringify(note));
+}
+
+module.export = {
+  addingNote,
+};
+
+
+you get this biffer
+s-app2" --body "get me the body"
+Starting app.js..
+adding note
+<Buffer 7b 22 74 69 74 6c 65 22 3a 22 6e 6f
+ 74 65 73 2d 61 70 70 32 22 2c 22 62 6f 64 
+79 22 3a 22 67 65 74 20 6d 65 20 74 68 65 20
+ 62 6f 64 79 22 7d>
+
+then add to get a neat formatted object
+var notes = JSON.parse(fs.readFileSync('notes.txt'));
+
+you get this response
+
+Starting app.js..
+adding note
+{ title: 'notes-app2', body: 'get me the body' }
+
+to create an array of responses
+
+const fs = require("fs");
+
+function addingNote(title, body) {
+  var notes = []; // all the object inside an array
+  notes.push(JSON.parse(fs.readFileSync("notes.txt")));
+
+  var note = {
+    title,
+    body,
+  };
+
+  notes.push(note);
+  
+  fs.writeFileSync("notes.txt", JSON.stringify(notes));
+}
+
+module.exports = {
+  addingNote,
+};
+
+in your terminal run this
+node app.js add --title "notes-app2" --body "get me another body"
+
+you get 2 array in your notes.txt
+[{"title":"notes-app2","body":"get me the body"},
+{"title":"notes-app2","body":"get me another  body"}]
+
+if you remove the two array, 
+leave the notes.txt empty you get an error
+because it try to parse an object that is already in notes according to our code
+alas notes.txt is empty
+if you run 
+node app.js add --title "notes-app2" --body "get me another  body"
+
+To fix it we use Try catch block
+
+try {
+   
+} catch(err) {
+
+}
+
+function addingNote(title, body) {
+  var notes;
+try {
+ notes.push(JSON.parse(fs.readFileSync("notes.txt")));
+  } catch (err) {
+  notes = [];
+ }
+
+  var note = {
+    title,
+    body,
+  };
+
+  notes.push(note);
+  
+  fs.writeFileSync("notes.txt", JSON.stringify(notes));
+}
+
+module.exports = {
+  addingNote,
+};
+
+run this
+node app.js add --title "notes-app2" --body "get me another  body"
+check notes.txt
+you see it worked but we can make our code cleaner
+
+function fetchNotes () {
+ try {
+  return JSON.parse(fs.readFileSync("notes.txt"));
+ } catch (err) {
+   return [];
+  }
+}
+
+function addingNote(title, body) {
+  var notes = fetchNotes();
+
+  var note = {
+    title,
+    body,
+  };
+
+  notes.push(note);
+
+  fs.writeFileSync("notes.txt", JSON.stringify(notes));
+}
+
+module.exports = {
+  addingNote,
+};
+
+run this
+node app.js add --title "notes-app2" --body "get me another nice  body"
+Starting app.js..
+adding note
+
+>>>refactoring to arrow function
+
+var fetchNotes = () => {
+ try {
+  return JSON.parse(fs.readFileSync("notes.txt"));
+ } catch (err) {
+   return [];
+  }
+}
+
+var addingNote = (title, body) => {
+  var notes = fetchNotes();
+
+  var note = {
+    title,
+    body,
+  };
+
+  notes.push(note);
+
+  fs.writeFileSync("notes.txt", JSON.stringify(notes));
+}
+
+module.exports = {
+  addingNote,
+};
+------------------------------------------
+PART 3
+------------------------------------------
+now let remove a note 
+first thing we do is read a file first
+
+var removeNote = (title) => {
+  var notes = fetchNotes();
+
+  var filteredNotes = notes.filter((note) => note.title !== title);
+
+  fs.writeFileSync("notes.txt", JSON.stringify(filteredNotes));
+};
+
+module.exports = {
+  addingNote,
+  removeNote
+};
+
+if (command === "remove") {
+  console.log("removing note");
+  notes.removeNote(title);
+
+run this in your terminal
+node app.js remove --title "notes-app2"
+
+you get
+Starting app.js..
+removing note
+
+-- title "note2" is deleted
+------------------------------------------------------
+For reading Note
+
+var readNote = (title) => {
+  var notes = fetchNotes();
+
+  var filteredNotes = notes.filter((note) => note.title === title)
+
+  console.log(filteredNotes)
+
+}
+run 
+node app.js read --title "notes-app3"
+you get
+Starting app.js..
+reading note
+[ { title: 'notes-app1', body: 'get me another  body' } ]
+
+change the 
+  console.log(filteredNotes) to console.log(`Title: ${filteredNotes[0].title} Body: ${filteredNotes[0].body}`);
+
+var readNote = (title) => {
+  var notes = fetchNotes();
+
+  var filteredNotes = notes.filter((note) => note.title !== title)
+
+  console.log(`Title: ${filteredNotes[0].title} Body: ${filteredNotes[0].body}`);
+
+}
+
+run
+
+node app.js read --title "notes-app3"
+
+you get
+Starting app.js..
+reading note
+Title: notes-app1 Body: get me another  body
+
+var getAll = ()=> {
+  var notes = fetchNotes()
+
+  console.log(notes)
+}
+
+in app.js
+
+else if (command === "list") {
+  console.log("listing all notes");
+  notes.getAllNotes();
+}
+
+----------------------------------------------
+reactoring with logNote
+>>in you app.js
+console.log("Starting app.js..");
+
+const yargs = require("yargs");
+const notes = require("./notes.js");
+const argv = yargs.argv;
+
+var title = yargs.argv.title;
+var body = yargs.argv.body;
+var command = yargs.argv._[0];
+
+if (command === "add") {
+  console.log("adding note");
+  notes.addingNote(title, body);
+} else if (command === "remove") {
+  console.log("removing note");
+  notes.removeNote(title);
+} else if (command === "read") {
+  console.log("reading note");
+  notes.readNote(title);
+} else if (command === "list") {
+  console.log("listing all notes");
+  notes.getAllNotes();
+} else {
+  console.log("unknown command was used!");
+}
+
+>>in your notes.js
+
+var addingNote = (title, body) => {
+  var notes = fetchNotes();
+
+  var note = {
+    title,
+    body,
+  };
+
+  notes.push(note);
+
+  fs.writeFileSync("notes.txt", JSON.stringify(notes));
+
+  logNote(note);
+};
+
+var removeNote = (title) => {
+  var notes = fetchNotes();
+
+  var filteredNotes = notes.filter((note) => note.title !== title);
+
+  
+};
+
+var readNote = (title) => {
+  var notes = fetchNotes();
+
+  var filteredNotes = notes.filter((note) => note.title !== title);
+
+  logNote(filteredNotes[0]);
+};
+
+var getAllNotes = () => {
+  var notes = fetchNotes();
+
+  notes.forEach((note) => logNote(note));
+
+  logNote(notes);
+};
+
+var logNote = (note) => {
+  console.log("************************");
+  console.log(`Title: ${note.title}`);
+  console.log(`Body: ${note.body}`);
+};
+
+module.exports = {
+  addingNote,
+  removeNote,
+  readNote,
+  getAllNotes,
+  logNote,
+};
+
+run this
+node app.js list
+
+you get
+Starting app.js..
+listing all notes
+************************
+Title: notes-app1
+Body: get me another  body
+************************
+Title: notes-app2
+Body: get me another nice  body
+************************
+Title: notes-app3
+Body: get me another nice  body
+************************
+Title: undefined
+Body: undefined
+
+---------------------------------------
+checking for double title in note
+
+var fetchNotes = () => {
+  try {
+    return JSON.parse(fs.readFileSync("notes.txt"));
+  } catch (err) {
+    return [];
+  }
+};
+
+var addingNote = (title, body) => {
+  var notes = fetchNotes();
+
+  var note = {
+    title,
+    body,
+  };
+
+  notes.push(note);
+
+  fs.writeFileSync("notes.txt", JSON.stringify(notes));
+
+  logNote(note);
+
+var double = notes.filter((note) => note.title === title);
+
+  if(double.length === 0) {
+    notes.push(note);
+
+    fs.writeFileSync("notes.txt", JSON.stringify(notes));
+
+    logNote(note);
+  } else {
+    console.log("STOP: Title already exists.");
+  }
+};
+
+var removeNote = (title) => {
+  var notes = fetchNotes();
+
+  var filteredNotes = notes.filter((note) => note.title !== title);
+
+  logNote(filteredNotes[0]);
+};
+
+var readNote = (title) => {
+  var notes = fetchNotes();
+
+  var filteredNotes = notes.filter((note) => note.title !== title);
+
+  logNote(filteredNotes[0]);
+};
+
+var getAllNotes = () => {
+  var notes = fetchNotes();
+
+  notes.forEach((note) => logNote(note));
+
+  logNote(notes);
+};
+
+var logNote = (note) => {
+  console.log("************************");
+  console.log(`Title: ${note.title}`);
+  console.log(`Body: ${note.body}`);
+};
+
+module.exports = {
+  addingNote,
+  removeNote,
+  readNote,
+  getAllNotes,
+  logNote,
+};
+
+run this
+node app.js add --title "notes-app" --body "get me the body"
+
+you get
+Starting app.js..
+adding note
+************************
+Title: notes-app
+Body: get me the body
+STOP: Title already exists.
+
+[{"title":"Arsenalrr","body":"dddddddddddddddddddddddddddddddddd"},
+{"title":"Note App2","body":"A note application create by me88888888888"},
+{"title":"Arsenal","body":"Why are they so good"}]

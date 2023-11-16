@@ -1,0 +1,287 @@
+// Ternary operator
+// A ternary operator is used to evaluate a condition and executes a block of code based on the condition.
+
+// condition ? expression1 : expression2
+// The ternary operator evaluates the condition.
+
+// If the condition is true, expression1 is executed.
+// If the condition is false, expression2 is executed.
+
+//program to check pass or fail
+// let marks = 16
+
+//  // check the condition
+// let result = ( marks >=40 ) ? 'pass' : 'fail';
+// console.log (`You ${result} the exam.`);
+
+// let age = 15;
+// let result;
+
+// if (age >= 18) {
+//       result = "You are eligible to vote.";
+// } else {
+//       result = "You are not eligible to vote yet.";
+// }
+
+// console.log(result);
+
+// Chained ternary operators
+// You can also nest one ternary operator as an expression inside another ternary operator. For example,
+
+// program to check if number is positive, negative or zero
+// let a = -6;
+// let result = (a === 0) ?  "zero" : a > 0 ? "positive"  : "negative";
+// console.log(`The number is ${result}.`);
+
+function example() {
+  return condition1 ? value1
+    : condition2 ? value2
+    : condition3 ? value3
+    : value4;
+}
+
+// program to check if number is positive, negative or zero
+let a = 3;
+let result = (a >= 0) ? (a == 0 ? "zero" : "positive") : "negative";
+console.log(`The number is ${result}.`);
+
+// Arrow functions
+// ES6 is all about having an optimized and minimal code.
+// ES6 Arrow functions are a more concise syntax for writing function expressions.
+
+// Below is an example of a simple function with no arguments :
+
+// JavaScript (ES5)
+// function multiply() { return 2 * 3; };
+// // ES6
+// // const multiply= () => { return 2 * 3 };
+// console.log(multiply())
+
+// Arrow functions
+// If we have one or multiple arguments, we just add them between the parentheses.
+
+// Below is an example :
+
+// JavaScript (ES5)
+// function multiply(x,y) { return x * y; };
+// ES6
+// const multiply = (x,y) => { return x * y };
+
+// console.log(multiply(4, 5))
+
+// Arrow functions
+// One last thing, if we have these conditions:
+
+// Exactly only one instruction.
+// That instruction is a return statement.
+// We can omit the curly brackets {} and the return keyword.
+
+// Below is an example :
+
+// JavaScript (ES5)
+//  function multiplyBy2(a) { return 2 * a; };
+// // ES6
+// // const multiplyBy2 = a => 2 * a ;
+
+// console.log(multiplyBy2(4))
+
+// Argument
+// Arrow functions are by design anonymous functions (which means that they can be created without a name).
+// It’s the reason why we assign it by convention to a variable that we invoke whenever we want.
+// Another amazing feature that JavaScript provides is the possibility of passing a function as an argument to another function. That’s what we call Higher Order Function or First Class Function. This sounds a little bit confusing but no need to panic. Here is an example on how to make understandable.
+
+// let sayHello = () => console.log("hello");
+// let sayBye = () => console.log("bye");
+// //sayHello(); // “Hello” will be alerted
+// // Let’s create a function that takes an argument and call it as if it was a function
+// let doSomething = somethingToDo => {
+//  somethingToDo();
+// };
+// //  Now any function we send to “doSomething()” function will be called right away
+// doSomething(sayHello); // “Hello” will be alerted
+// doSomething(sayBye); // “Bye” will be alerted
+
+// Array
+// Dealing with an array in JavaScript can be a bit complicated and hard to code. Here is an example to elaborate on that. We want to alert the index of the name Jack in the array people:
+
+// const people = [{ name: 'Max' }, { name: 'Jack' }, { name: 'Marry' }];
+// let i = 0;
+// while (i < people.length && people[i].name != 'Jack') {
+//  i++;
+// }
+// if (i !== people.length) {
+//  console.log('Jack is in ' + i);
+// } else {
+//  console.log('Cannot find Jack');
+// }
+
+// Array function for each()
+// Now, let’s look at the .forEach() array function.
+// Suppose we want to perform an action on every element on a given array. The forEach method is our way for using predefined methods.
+
+// So what does it really do?
+
+// The .forEach() method will browse the array and execute the same instructions on every element in the same array.
+// Let's see an example ! We want to browse the people array and alert every name in it:
+
+// const people = [{ name: "Max" }, { name: "Jack" }, { name: "Marry" }];
+
+// // JavaScript
+// function showEachOne(name) {
+//   for (let i = 0; i < people.length; i++) {
+//     console.log(people[i].name);
+//   }
+// }
+
+// ES6
+// const showEachOne = name => people.forEach(person => console.log(person.name)); // not working fix it
+
+// Array function: filter
+// Now let’s look at a more interesting array function. Imagine we have a cart full of groceries and we want to keep only cheap products. If we consider an array of products where every product is an object (as shown below).
+// Applying the filter method, we will have a new array that will eliminate all the products that have a price more than 10 dollars.
+
+// const products = [{name:"Milk",price:15}, {name:"Water", price:9}, {name:"Bread", price:5}];
+
+// // JavaScript
+// // function filterProducts() {
+// //  let cheapProducts = [];
+// //  for (let i = 0; i < products.length; i++) {
+// //    if (products[i].price < 10) cheapProducts.push(products[i]);
+// //  }
+// //  return cheapProducts;
+// // }
+
+// // ES6
+//  const filterProducts = () => products.filter(product => product.price < 10);
+
+// console.log(filterProducts())
+
+// Array function: map
+// ES6 also provides a function for array transformation using .map().
+// Let’s suppose we want to add two dollars to the price of each product in the array.
+// You’re probably wondering by now: what’s the difference between the .forEach() and .map(). method? Well, it’s very simple. Like we’ve said, the .forEach executes the same instruction on every element in a given array and the .map() method does the same thing. However, it’s done on a copy of the array, leaving the original data unchanged.
+// Don’t hesitate to try it yourself !
+
+// const products = [
+//  { name: 'Milk', price: 15 },
+//  { name: 'Water', price: 9 },
+//  { name: 'Bread', price: 5 },
+// ]
+
+// JavaScript
+// function changeProducts() {
+//  for (let i = 0; i < products.length; i++) {
+//    products[i].price += 2
+//  }
+//  return products
+// }
+
+// ES6
+// const changeProducts = () =>
+//  products.map(product => ({ ...product, price: product.price + 2 }));
+// console.log(changeProducts());
+// console.log(products);
+
+// console.log(changeProducts())
+
+// Array function: reduce
+// Now, let’s have a look at the reduce() function.
+// It is a built-in method that applies a function to each element in the array. It reduces the array to a single value.
+// The reduce() function executes the provided function for each value of an array from left-to-right.
+// The return value of a function is stored in an accumulator.
+
+// const data = [5, 10, 15, 20, 25]
+// const res = data.reduce((total, currentValue) =>  total + currentValue)
+// console.log(res)// 75
+
+// Named export
+// A module can export multiple things by prefixing its declarations with the keyword export. These types of exports are distinguished by their names. In order to import this type, we include the name inside curly brackets. We can also export every module in the file using the * symbol or with an alias using the keyword ‘as’.
+
+
+// module.exports.add = function add(x, y) {
+//     return x + y;
+//   }
+
+// module.exports.square = function square(x) { return x * x
+// }
+
+// // import does not work for you
+// // use require
+
+// const scripts = require("./scripts");
+// // use the in another script
+
+// console.log(scripts.add(2, 5));
+// console.log(scripts.square(9))
+
+
+// DESTRUCTURING
+// Object access chain
+// When working with objects, we can use the dot notation (also called object access chain) to get the property of an object.
+
+// Let’s see an example :
+
+// let student = { address: { city: 'New York', country: 'USA' } }
+
+// console.log(student.address.city) // New York
+// console.log(student.address.country) // USA
+
+// Use of variable
+// But when dealing with deeply nested objects, we might end up with a long object access chain.
+// Naturally, repeating code leads to duplicates and duplicates are a problem. Some even say that duplicates are the most disliked annoyances when it comes to programming. So one of the alternatives is to use variables like we can see below:
+
+// let student = { address: { city: 'New York', country: 'USA' } }
+
+// let city = student.address.city
+// let country = student.address.country
+
+// console.log(city) // New York
+// console.log(country) // USA
+
+// ES6 Destructuring
+// Variables solve the issue of redundant code. But, it makes the code longer and harder to read. This is where destructuring comes into play. In simpler terms, the destructuring assignment syntax is a JavaScript expression that makes it possible to unpack values from arrays, or properties from objects, into distinct variables.
+// All we need to do is to put the variable inside two curly brackets in the declaration.
+
+// Notice : the variable must have the same name as the property inside the object.
+
+// You would do something like this:
+
+// let { address } = {address:{city:"New York", country:"USA"}};
+
+// let {city, country} = address;
+
+// console.log(city) // New York
+// console.log(country) // USA
+
+
+// SPREADING
+// Problem of copying objects (references)
+// Let’s say we have two arrays and we want to merge the values of the first array with the second one.
+// Doing this in the traditional way requires a for loop and pushing all the elements of the two arrays to a new array.
+// Note : Please notice that we can also use concat.
+// ES6 introduced a more natural approach using the spreading operator that does the same thing.
+
+// let array1 = [1,2,3];
+// let array2 = [4,5,6];
+// // Using ES5
+// array1 = array1.concat(array2);
+// console.log(array1)//  [1,2,3,4,5,6,4,5,6]
+// // Using ES6
+// array1 = [...array1, ...array2];
+// console.log(array1)//  [1,2,3,4,5,6,4,5,6]
+
+// Creating two copies of an object:
+// The spreading operator makes a huge difference when it comes to dealing with objects. Copying properties from an object to another used to be trickier with the Object.assign() function (which is a bit hard to work with).
+
+// Just like arrays, we add the spreading operator before the object, in this case we are spreading the first and the second object like this:
+
+let object1 = { firstName: 'John', lastName: 'Brown' }
+let object2 = { age: 25 }
+
+let newObject1 = { ...object1, ...object2 }
+console.log(newObject1)
+/* {
+firstName:"John",
+lastName:"Brown",
+age:25
+}*/

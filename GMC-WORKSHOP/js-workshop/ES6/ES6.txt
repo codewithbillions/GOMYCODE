@@ -1,0 +1,160 @@
+//////VARIABLE//////
+//const let scope local 
+
+const scope = () =>{
+    var x='x'
+    {var y='y';
+    let z='z'
+    console.log('x:',x)
+  }
+    console.log('outside the block',y)
+    console.log('outside the block',z)
+  }
+  scope()
+//x:x
+//y:y
+//error: Uncaught ReferenceError: z is not defined
+
+const scope = () => {
+    var x='x'
+    {var y='y';
+    let z='z'
+    console.log('x:',x)
+    console.log('inside the block',y)
+    console.log('inside the block',z)
+  }
+  }
+  scope()
+// x:x
+// y:y
+// z:z
+
+function scope() {
+    {const pi=3.14
+    console.log('inside the block',pi)}
+    console.log('outside the block',pi)
+}
+
+scope()
+//3.14
+//error: Uncaught ReferenceError: pi is not defined
+
+// FUNCTION /////
+
+//  function sayHello(name){
+//    return "Hello " + name
+//  }
+
+
+const sayHello = (name)=>{
+    //Some stuff 
+   return "Hello " + name
+ }
+ 
+ //const sayHello = name => "Hello " + name
+ 
+ console.log(sayHello("john"))
+
+
+/////TERNARY OPERATOR /////
+
+let marks=50
+
+let result = (marks >= 40) ? 'Passed' : 'Failed';
+
+console.log(`You ${result} the exam.`);
+
+//////ARRAY////////
+
+let array = [15, 24, 15, 26, 1, 8, 45];
+
+// let array1 = array.map(el=>el*2)
+//let array = [15, 24, 15, 26, 1, 8, 45]
+   array = array.forEach(el => console.log(el * 2))
+   console.log(array)
+// let array2 = array.filter((el, i)=>el>20)
+let array3 = array.reduce((acc, cur) => acc + cur, 5);
+// let array4 = array.find(el=> el>25)
+// let array5 = array.findIndex(el=> el>25)
+
+// function map (){
+//   let array=[15, 24, 15, 26, 1, 8, 45]
+//   for(let i=0; i< array.length; i++){
+//     array[i]=array[i]+1
+//   }
+//   return array
+// }
+console.log(array3);
+
+// function filter (){
+//   let array=[15, 24, 15, 26, 1, 8, 45]
+//   let tab = []
+//   for(let i=0; i< array.length; i++){
+//     if(array[i]>20){
+//       tab=tab.concat(array[i])
+//     }
+//   }
+//   return tab
+// }
+
+
+
+///////DEST + SPREAD.JS/////////
+// Without destruction
+let user = {
+    name: "Tobi",
+    age: 26,
+    fullstack: {
+      track: "js",
+      skill: 'ES6',
+    },
+  };
+
+let a = (user) => {
+    return `my name is ${user.name}, i'm ${user.age} and we are learning ${user.fullstack.track}:${user.fullstack.skill} `;
+  };
+
+  console.log(a(user));
+
+//with desct
+
+let user = {
+    name: "Ebuka",
+    age: 26,
+    fullstack: {
+      track: "Js",
+      skill: 'ES6',
+    },
+  };
+  let a = ({ name, age, fullstack: { track, skill } }) => {
+    return `my name is ${name}, i'm ${age} and we are learning ${track}:${skill} `;
+  };
+  console.log(a(user));
+
+//spread objects
+let user={name:'ilen', age:25, adress:'boumhel'}
+let infos={track:'full stack js', framework:'react'}
+let fullinfo= {...user,...infos}
+console.log(fullinfo)
+
+let info={...user, id:1}
+console.log(info)
+
+//spread with map 
+const users = [{ name: "mohamed" }, { name: "salah" }];
+const tt = [...users, { name: "hejer" }];
+const u = users.map((el, i) => { return{...el, age: i} });
+console.log(...u);
+
+//spread tables 
+let arr=['hello', 'world']
+let arr2=['welcome', 'to', 'gomycode']
+let newarr=[...arr]
+console.log(newarr)
+console.log(arr)
+
+//concat
+let newar=[...arr,...arr2]
+let x=[...arr, 'x']
+console.log(x)
+console.log(newar)

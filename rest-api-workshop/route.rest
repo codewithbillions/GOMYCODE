@@ -1,0 +1,28 @@
+GET http://localhost:3000/subscribers
+
+###
+
+GET http://localhost:3000/subscribers/12
+
+###
+GET http://localhost:3000/subscribers/6378959812eb0adbe5567b0f
+
+###
+POST http://localhost:3000/subscribers
+Content-Type: application/json
+{ 
+    "name": "mr superman",
+    "subscribedToChannel": "code with billions"
+}
+
+###
+DELETE http://localhost:3000/subscribers/63789d3a1610ab555004fa03
+
+###
+PATCH  http://localhost:3000/subscribers/63789d01019c0af4516c9365
+Content-Type: application/json
+
+{ 
+    "name": "mr spiderman"
+}
+

@@ -1,0 +1,290 @@
+we wiil be building our rest api with node express and mongoDB
+
+first we npm init
+
+this is going to create a package.json for us
+then we are going to install all our dependency
+
+npm i express mongoose
+npm i --save-dev dotenv nodemon
+
+change the test in package.json to devStart: "nodemon server.js"
+to restart our server anytime we make changes.
+
+the we create the .env folder
+also a .gitignore
+the we ignore the .env file .gitignore because it carries sensitive information
+
+we also want to ignore our node_module
+
+now we go into server.js 
+we create a variable 
+
+const express = require('express');
+const app = express()
+app.listen(3000, () => console.log('server has started') )
+
+the we run <npm run devStart> in the console.
+
+then we bring in the mongoose library
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost:27017/subscribers', { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        console.log(`CONNECTED TO MONGO!`);
+    })
+    .catch((err) => {
+        console.log(`OH NO! MONGO CONNECTION ERROR!`);
+        console.log(err);
+    })
+
+app.listen(3000, () => console.log("server has started"));
+
+vow lets use our .env by putting connection string in the environment variable
+
+DATABASE_URL=mongodb://localhost:27017/subscribers
+
+mongoose
+  .connect(process.env.DATABASE_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+
+  we will get an error so we need to import our .env library
+
+  require('dotenv').config()
+
+  this will remove the error in the console and we are connected to our database successfully.
+
+
+require('dotenv').config()
+
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+
+mongoose
+  .connect(process.env.DATABASE_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log(`CONNECTED TO MONGO!`);
+  })
+  .catch((err) => {
+    console.log(`OH NO! MONGO CONNECTION ERROR!`);
+    console.log(err);
+  });
+
+app.listen(3000, () => console.log("server has started"));
+
+
+
+>>>>>>>>>>
+  now we need to create routes for our server and set up our server to accept json
+
+    app.use(express.json());
+
+    will allow us use any middleware the we want that run when the server gets the request before it gets passed to the routes. this will also let the router accept json when passed into the body our routes
+>>>>>>>>>>>>>
+
+create a route for subscribers
+thats is create folder called route and create a file called subcribers
+
+in server.js
+const subscribersRouter = require('./routes/subscribers')
+app.use('/subscribers', subscribersRouter);
+
+we will get an error because the subscribers.js is empty 
+now let configure or subscriber.js
+
+const express = require('express')
+const router = express.Router()
+
+module.exports = router
+
+this will clear the error in our console
+
+now we want to create our routes 
+// getting all
+// creating one
+// updating one
+// deleting one
+
+
+// Getting 
+router.get('/', (req, res) => {
+    res.send('Hello World!')
+})
+// Gettin One
+router.get('/:id', (req, res) => {
+})
+// Creating one
+router.post('/', (req, res) => {
+})
+
+// Updating one
+router.patch('/:id', (req, res) => {
+}) //patch is to update whatever the user pass put will updade all
+
+// Deleting one
+router.delete('/:id', (req, res) => {
+})
+
+module.exports = router
+
+//you cannot really test the rest api in the browser because you have nothing to interrect with.
+download and extension called "rest client"
+create a file called route.rest
+
+GET http://localhost:3000/subscribers
+
+###
+GET http://localhost:3000/subscribers/12
+
+in the routes subscribers.js
+
+// Getting 
+router.get('/', (req, res) => {
+    res.send('Hello World!')
+})
+
+// Gettin One
+router.get('/:id', (req, res) => {res.send(req.params.id)
+})
+
+>>>>>>>>>
+now we create our models folder
+and inside the models folder we create a subscriber.js
+
+const mongoose = require('mongoose')
+
+const subscriberSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+
+    },
+    subscribedToChannel: {
+        type: String,
+        required: true,
+
+    },
+    subscribedDate: { type: Date, required: true,
+        default: Date.now
+    }
+})
+
+module.exports = mongoose.model('Subcriber', subscriberSchema);
+
+//the model functions allows us to interract with the database use this schema we set up here 
+
+then we in into our routes/subcribers.js
+
+const subscriber = require("../models/subscriber");
+
+
+
+// Getting All
+router.get("/",async (req, res) => {
+  try {
+    const subscribers = await subscriber.find()
+    res.json(subscriber)
+  } catch (err) {
+    res.status(500).json({message: err.message})
+  }
+});
+
+test this at route.rest you should get an empty array. 
+
+// Creating one
+router.post("/", async (req, res) => {
+    const subscriber = new subscriber({
+        name: req.body.name,
+        subscribedToChannel: req.body.subscribedToChannel
+    })
+
+    try {
+        const newSubscriber = await subscriber.save()
+        res.status(201).json(newSubscriber)
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+
+in the route.rest
+POST http://localhost:3000/subscribers
+Content-Type: application/json
+
+{ 
+    "name": "mr superman",
+    "subscribedToChannel" : "code with billions"
+}
+
+>>> in the routes
+since the rest of the route will have an id as a parameter
+we have to create a middleware
+we made it asynchronous because we will be accessing the database in this code. this will pass the user based on the id. the we check if the user exist(if the user == null)
+
+async function getSubscriber(req, res, next) {
+  let subscriber
+  try {
+    subscriber = await Subscriber.findById(req.params.id)
+    if (subscriber == null) {
+      return res.status(404).json({ message: 'Cannot find subscriber' })
+    }
+  } catch (err) {
+    return res.status(500).json({ message: err.message })
+  }
+
+  res.subscriber = subscriber
+  next()
+}
+
+add the subscriber middleware to all the routes.
+
+// Getting One
+router.get('/:id', getSubscriber, (req, res) => {
+  res.send(res.subscriber.name)
+})
+
+GET http://localhost:3000/subscribers/126378959812eb0adbe5567b0f
+
+
+// Deleting One
+router.delete('/:id', getSubscriber, async (req, res) => {
+  try {
+    await res.subscriber.deleteOne() 
+    res.json({ message: 'Deleted Subscriber' })
+  } catch (err) {
+    res.status(500).json({ message: err.message })
+  }
+})
+
+DELETE http://localhost:3000/subscribers/6378959812eb0adbe5567b0f
+
+//Updating One
+router.patch('/:id', getSubscriber, async (req, res) => {
+  if (req.body.name != null) {
+    res.subscriber.name = req.body.name
+  }
+  if (req.body.subscribedToChannel != null) {
+    res.subscriber.subscribedToChannel = req.body.subscribedToChannel
+  }
+  try {
+    const updatedSubscriber = await res.subscriber.save()
+    res.json(updatedSubscriber)
+  } catch (err) {
+    res.status(400).json({ message: err.message })
+  }
+})
+
+PATCH  http://localhost:3000/subscribers/63789d01019c0af4516c9365
+Content-Type: application/json
+
+{ 
+    "name": "mr spiderman"
+}
+
+
+// status error 500, = error with server
+// status error 400, = error with user

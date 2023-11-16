@@ -1,0 +1,66 @@
+/* .container {
+    border: 5px solid #ffcc5c;
+    display:flex;
+    height: 100%;
+    align-items: stretch;
+    /* justify-content: flex-end; */
+    /* flex-direction: row;
+    justify-content: space-between; */
+/* } */ 
+
+.container {
+    border: 5px solid #ffcc5c;
+    display:flex;
+    flex-wrap: wrap;
+}
+
+.container > div {
+    width: 300px;
+}
+
+/* .logout {
+    align-self: flex-start;
+} */
+
+/* align-item: center
+justify-content: center */
+
+/* main axis   */
+
+/* .container > div {
+    flex: 1;
+
+/* flex-grow, flex-shrink, flex-basis
+this makes the page responsive*/
+/* } */
+
+/*.container > .search {
+    flex:2;
+
+    /* if you want the search container to be twice in size */
+/* } */
+/* 
+.home {
+    flex: 1;
+
+    /* only the home will be responsive to the screen */
+/* }  */
+
+/* .home {
+    margin-right: auto;
+} */
+/* 
+.logout {
+    margin-left: auto;
+} */
+
+/* if you want to move the search also to the flex end, all you need to do is target the search, it will move both
+.search {
+    margin-left: auto;
+} */
+
+
+/* justify-content
+flex-start center space-around space-between space-evenly */
+
+/* cross axis */

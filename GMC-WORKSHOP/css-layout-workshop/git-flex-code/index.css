@@ -1,0 +1,13 @@
+.container {
+    display: flex;
+    border: 5px solid #a5760e;
+    flex-grow: inherit;
+}
+.container {
+    justify-content: space-evenly;
+}
+
+
+.container > .profile {
+    background-color: black;
+}

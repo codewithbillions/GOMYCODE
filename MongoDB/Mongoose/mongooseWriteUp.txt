@@ -1,0 +1,589 @@
+mogoose is a wraper around mongoDB
+
+create a file called script.js
+>> iniitailize npm
+npm init -y
+npm i mongoose
+npm i --save-dev nodemon
+
+in our package.json
+in the we change it to "scripts": {
+    "devStart" : " nodemon scripts.js"
+}
+
+>> npm run devStart
+
+console.log("HI")
+it prints in the console
+
+const mongoose = require("mongoose")
+
+mongoose.connect("mongodb+srv://dark-khaki:dark-khaki@cluster0.0zs5ko5.mongodb.net/?retryWrites=true&w=majority")
+
+mongoose.connection.on("error", (e) => {
+  console.log("mongo connect error!");
+});
+mongoose.connection.on("connected", () => {
+  console.log("connected to mongo");
+});
+
+
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb+srv://mongoose:rzUGkpKWl2x15UJt@cluster0.kjg1q2t.mongodb.net/mongoose', () => {
+    console.log('connected')
+},
+e => console.error(e)
+)
+
+you call also ignore and do just 
+mongoose.connect("mongodb+srv://mongoose:rzUGkpKWl2x15UJt@cluster0.kjg1q2t.mongodb.net/mongoose")
+
+try doing User.  see all the mongoDB query options
+
+>> inside of mongoose there are three main concept you need to understand
+1.schema = defines what the structure of your data looks like. userSchema: user has a name, age, hobbies etc.
+2.Model: is that schema in an actual form you can use, like an individual user object from the database that you can interact with.
+3.Query: is essentially the query you are making against the mongoDB database.
+
+the most important of the concept is a schema.
+>>
+creater a User.js file
+in the file 
+require the mongoose library
+const mongoose = require('mongoose');
+
+to create a schema 
+>>
+new mongoose.Schema({
+    
+})
+
+here create an that you will pass the object for the different option you need for the schema.
+
+then pass this to a variable called  const userSchema = new mongoose.Schema({
+    
+})
+this object will just be a key value pairs where the key is the name of the mongoDB object in your database
+
+name : String,
+age : Number
+
+after you pass in this then you create a model for the schema
+
+mongoose.model("User", userSchema)
+
+after doing this you will have to export it
+mudule.exports = mongoose.model("User", userSchema)
+
+you get this>>>>
+
+const mongoose = require("mongoose");
+
+const userSchema = new mongoose.Schema({
+  name: String,
+  age: Number,
+})
+
+module.exports = mongoose.model("User", userSchema);
+
+>>>>>>>
+
+Now we go back to our script.js
+the import the User schema
+const User = require('./User')
+         
+>>
+to create a new user object in 
+
+const user = new User({ name: "kehinde", age: 40})
+
+we have not save the user to our database we just have a local copy in our javascript programme but its not in our database yet.
+then we need to call the function! user.save()
+it is asynchrous then we can use use user.save().then(() => console.log("User Saved"))
+
+we will have >>
+
+const user = new User({ name: "kehinde", age: 40})
+user.save().then(() => console.log("User Saved"))
+
+and when we save we are going to see user saved in the console.
+
+now we going to change this to an async function using also the create()
+
+run();
+async function run() {
+  const user = await User.create({ name: "kehinde", age: 36 });
+  console.log(user);
+}
+
+>>> you get this in your console
+{
+  name: 'kehinde',
+  age: 36,
+  _id: new ObjectId("636ec16b969f062d5f58c189"),
+  __v: 0
+}
+you can see the name, age and the auto-generated ID
+
+run();
+async function run() {
+  try {
+    const user = await User.create({ name: "kehinde",
+    age: 40,
+  });
+ 
+  await user.save()
+  console.log(user)
+} catch (e) {
+  console.log(e.message);
+  }
+}
+
+so also to change the user's name
+run();
+async function run() {
+  const user = await User.create({ name: "kehinde", age: 36 });
+
+  user.name = "billions"
+
+  // to save it to the database
+  await user.save()
+
+  console.log(user);
+}
+
+
+
+this is actually the most basic way of using moongoose.
+now lets g to our User.js and add more examples to the schemas
+add a bunch of fields like the 
+email:String,
+createdAt: Date,
+updatedAt: Date,
+now we are gount to add a nested object which we will call a best friend field.
+which will represent another user. we want the to be an object id(like the one in the console)
+we use >>
+bestFriend: mongoose.SchemaTypes.ObjectId
+the we add 
+hobbies which is going to be an array.
+hobbies:[String] if we leave it[] blank it can be an array of anything we want.
+we cant also next things like
+address: {
+  street: String,
+  city: String,
+}
+>>> you get this
+
+const mongoose = require("mongoose");
+
+const userSchema = new mongoose.Schema({
+  name: String,
+  age: Number,
+  email:String,
+  createdAt: Date,
+  updatedAt: Date,
+  bestFriend: mongoose.SchemaTypes.ObjectId,
+  hobbies:[String],
+  address: {
+    street: String,
+    city: String,
+  }
+})
+
+module.exports = mongoose.model("User", userSchema);
+
+>>>>>>
+go to scripts.js
+
+run();
+async function run() {
+  const user = await User.create({ name: "kehinde",
+  age: 36,
+  hobbies: ['weight lifting',' bowling'],
+  address: {
+    street: "Herbert Mcauley",
+    city: "lagos"
+  }
+ });
+
+  console.log(user);
+}
+
+its important to note that in nested objects like address, there are two ways to do it inside of mongoose
+the first is the way we did it in the UserSchema.(see user.js)
+
+this is the second way
+>>>
+
+const addressSchema = new mongoose.Schema({
+    street: String,
+    city: String,
+})
+
+const userSchema = new mongoose.Schema({
+  name: String,
+  age: Number,
+  email:String,
+  createdAt: Date,
+  updatedAt: Date,
+  bestFriend: mongoose.SchemaTypes.ObjectId,
+  hobbies:[String],
+  address: addressSchema,
+})
+
+module.exports = mongoose.model("User", userSchema);
+
+this method is best if you have a complex or bigger objects.
+
+>>>>
+try add a string to the age as value and see the error you get.
+
+{
+        generatedMessage: true,
+        code: 'ERR_ASSERTION',
+        actual: false,
+        expected: true,
+        operator: '=='
+      },
+      valueType: 'string'
+    }
+  },
+  _message: 'User validation failed'
+}
+
+now lets wrap out function in to a try catch block. 
+
+run();
+async function run() {
+  try {
+    const user = await User.create({ name: "david",
+    age: "kjfskbslssf",
+   hobbies: ['weight lifting',' bowlin g'],
+   address: {
+     street: "wuse abuja",
+     city: "lagos",
+   },
+  });
+  console.log(user)
+} catch (e) {
+  console.log(e.message);
+  }
+}
+
+>>we get a better error message in out console
+
+User validation failed: age: Cast to Number failed for value "kjfskbslssf" (type string) at path "age".
+
+put the age the way we had it before. the error will disappear.
+>>>>>>>>>>>>>>>>>>>
+a more advanced validation will be to add required to the field if the field is required 
+to do this  
+email: {
+  type: string,
+  required: true,
+},
+
+we get this error
+
+User validation failed: email: Path `email` is required.
+
+now in our script.js we pass in our email field
+email: "KEHINDE@gmail.com"
+
+the error will be gone and we see email in our user object.
+
+we noticed email are always lowercase,
+in my user object i typed it in uppercase
+in mongoose we can also set it 
+
+  email: {
+    type: String,
+    required: true,
+    lowercase: true,
+  },
+
+  you will get lowercase, you can also do the reverse and put in uppercase in the field.
+
+  const userSchema = new mongoose.Schema({
+  name: String,
+  age: Number,
+  email: {
+    type: String,
+    required: true,
+    lowercase: true,
+  },
+  createdAt: Date,
+  updatedAt: Date,
+  bestFriend: mongoose.SchemaTypes.ObjectId,
+  hobbies:[String],
+  address: {
+    street: String,
+    city: String,
+  }
+})
+>>>>>>>>>>>
+in our createdAt set the default to the current date and time.
+createdAt: {
+  type: Date,
+  default: new Date()
+}
+in our console we get a default date
+ createdAt: 2022-11-12T06:09:23.795Z,
+ the problem with this is that it queries the new date once, it give a static value. to make it better we run a date function to update it anytime we add a value
+createdAt: {
+  type: Date,
+  default: () => Date.now(),
+},
+
+now we automatically get the newest dat all the time
+
+run the same function for the updatedAt field
+>>>
+
+setting the immutable to true mmean you wont be able the change the created at date.
+createdAt: {
+  type: Date,
+  immutable: true,
+  default: () => Date.now(),
+},
+
+even if we try to change it in user object
+
+ try {
+    const user = await User.create({ name: "kehinde",
+    age: 40,
+    email: "KEHINDE@gmail.com",
+   hobbies: ['weight lifting',' bowling'],
+   address: {
+     street: "herbert Mcauley",
+     city: "lagos",
+   },
+  });
+  user.createdAt = 5
+  await user.save()
+  console.log(user)
+} catch (e) {
+  console.log(e.message);
+  }
+}
+>>>>>>>
+the next thing i want to talk about is min max
+ age: {
+  type: Number,
+  min: 1,
+  max: 100,
+}
+so your age is -20 or 200 you get an error.
+
+you can do the same for strings also
+  email: {
+    type: String,
+    minLength: 10,
+    required: true,
+    lowercase: true,
+  },
+
+so if you email is less than 10 you get an error saying your email is less than 10.
+
+>> we can also add custome validation
+the validator option help validate if the condiyion is true or false.
+
+ age: {
+  type: Number,
+  min: 1,
+  max: 100,
+  validate: {
+    validator: v => v % 2 === 0,
+    message: props =>`${props.value} is not an even number`
+  }
+}
+
+if our age is even we dont get an error but if the age is odd we get an error.
+this is really interesting because you can do the vaidation on the model itself not worrying about writing validation all over the the place.
+
+>>
+the is one issue with all this validation it is only going to run with create() or save() function.
+without adding the save() it will skip your validation it is not advisablw to use those other option cos they work directly with the database ignoring the model validation.
+user.
+
+>>>>
+by this we get the id using the user we just created.
+
+run() 
+async function run() {
+  try {
+    const user = await User.findById()
+    console.log(user)
+  }catch (e) {
+    console.log(e.message)
+  }
+}
+
+you get your user object
+
+
+>>>>>>try
+
+run() 
+async function run() {
+  try {
+    const user = await User.find({name: "kehinde"})
+    console.log(user)
+  }catch (e) {
+    console.log(e.message)
+  }
+}
+
+we get all the users we created with kehinde.
+
+run() 
+async function run() {
+  try {
+    const user = await User.find({name "s"})
+    console.log(user)
+  }catch (e) {
+    console.log(e.message)
+  }
+}
+we get nothing back.
+>>>
+findOne
+exists
+deleteOne
+deleteMany
+
+run() 
+async function run() {
+  try {
+    const user = await User.findOne({name: "kehinde"})
+    console.log(user)
+  }catch (e) {
+    console.log(e.message)
+  }
+}
+>>>
+where().equals
+
+run() 
+async function run() {
+  try {
+    const user = await User.where("name").equals("kehinde")
+    console.log(user)
+  }catch (e) {
+    console.log(e.message)
+  }
+}
+>>>>
+where().gt()
+
+run() 
+async function run() {
+  try {
+    const user = await User.where("age").gt("12")
+    console.log(user)
+  }catch (e) {
+    console.log(e.message)
+  }
+}
+
+>>>>>
+
+run() 
+async function run() {
+  try {
+    const user = await User.where("name").equals("kehinde").where("age").gt("12")
+    console.log(user)
+    console.log(user)
+  }catch (e) {
+    console.log(e.message)
+  }
+}
+
+>>>
+run() 
+async function run() {
+  try {
+    const user = await User.where("age")
+    .gt(12)
+    .where("name")
+    .equals("kehinde")
+    .limit(2)
+    .select("age")
+    console.log(user)
+  }catch (e) {
+    console.log(e.message)
+  }
+}
+
+>>>>>>>
+ref
+referencing a user model
+
+bestFriend: {
+  type: mongoose.SchemaTypes.ObjectId,
+  ref: "User",
+}
+now we want to add a best friend to our user. in scripts
+
+run() 
+async function run() {
+  try {
+    const user = await User.where("age")
+    .gt(12)
+    .where("name")
+    .equals("kehinde")
+    .limit(1)
+    .select("age")
+    user[0].bestFriend = "636f3bab69ffe59b2557bd64"
+    console.log(user)
+  }catch (e) {
+    console.log(e.message)
+  }
+}
+
+you get 
+[
+  {
+    _id: new ObjectId("636ebf5e2ba828539858f418"),        
+    age: 36,
+    bestFriend: new ObjectId("636f369a3a8face89d475af9")  
+  }
+]
+>>>>>> populate
+run();
+async function run() {
+  try {
+    const user = await User.where("age")
+      .gt(12)
+      .where("name")
+      .equals("kehinde")
+      .populate("bestFriend")
+      .limit(1);
+    console.log(user);
+  } catch (e) {
+    console.log(e.message);
+  }
+}
+
+you get 
+[
+  {
+    updatedAt: 2022-11-12T07:26:31.821Z,
+    hobbies: [],
+    _id: new ObjectId("636ebf5e2ba828539858f418"),        
+    name: 'kehinde',
+    age: 36,
+    __v: 0,
+    bestFriend: {
+      address: [Object],
+      updatedAt: 2022-11-12T07:26:31.821Z,
+      _id: new ObjectId("636f369a3a8face89d475af9"),      
+      name: 'kehinde',
+      age: 40,
+      email: 'kehinde@gmail.com',
+      hobbies: [Array],
+      __v: 0
+    }
+  }
+]
